@@ -6,6 +6,7 @@ import cors from "cors";
 
 import indexRouter from "./routes/index.js";
 import menusRouter from "./routes/menus.router.js";
+import ordersRouter from "./routes/orders.router.js";
 import statsRouter from "./routes/stats.router.js";
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.static(path.join(path.resolve(), "public")));
 
 app.use("/", indexRouter);
 app.use("/menus", menusRouter);
+app.use("/orders", ordersRouter);
 app.use("/stats", statsRouter);
 
 export default app;
