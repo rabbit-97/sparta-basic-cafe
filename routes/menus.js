@@ -44,9 +44,9 @@ router.get("/stats", (req, res, next) => {
 // });
 
 // 메뉴 생성
-router.post("create", (req, res) => {
+router.post("/", async (req, res) => {
   const { name, type, temperature, price } = req.body;
-  const menu = prisma.menu.create({
+  const menu = await prisma.menu.create({
     data: {
       name,
       type,
