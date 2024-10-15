@@ -41,4 +41,14 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// router.get("/", (req, res, next) => {
+//   res.status(200).json({
+//     stats: {
+//       totalMenus: 3,
+//       totalOrders: 10,
+//       totalSales: 30000,
+//     },
+//   });
+// });
+
 export default router;
