@@ -11,6 +11,8 @@ import statsRouter from "./routes/stats.router.js";
 
 const app = express();
 
+// 내일 질문 내용 : 왜 홈페이지가 작동 안하는지
+
 app.use(cors());
 
 app.use(logger("dev"));
