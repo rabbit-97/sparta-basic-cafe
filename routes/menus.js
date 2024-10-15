@@ -7,41 +7,39 @@ const prisma = new PrismaClient({
   errorFormat: "pretty",
 });
 
-// 해야하는것 데이터 추가, 삭제, 수정, 조회
-// 통계값 함수 구현
+router.get("/stats", async (req, res, next) => {
+  try {
+    // 메뉴의 총 개수
+    const totalMenus = await prisma.menu.count();
 
-router.get("/stats", (req, res, next) => {
-  res.status(200).json({
-    // stats: {
-    //     totalMenus: 3,
-    //     totalOrders: 10,
-    //     totalSales: 30000
-    // }
-  });
+    // 총 주문 횟수
+    const totalOrders = await prisma.orderHistory.count();
+
+    // 모든 주문 내역
+    const orders = await prisma.orderHistory.findMany({
+      include: {
+        menu: true,
+      },
+    });
+
+    // 총 매출 계산
+    let totalSales = 0;
+    orders.forEach((order) => {
+      totalSales += order.menu.price;
+    });
+
+    // 통계 반환
+    res.status(200).json({
+      stats: {
+        totalMenus,
+        totalOrders,
+        totalSales,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 });
-
-// router.get('/', (req, res, next) => {
-//     res.status(200).json({
-//         menus: [
-//             {
-//                 id: 1,
-//                 name: 'Latte',
-//                 type: 'Coffee',
-//                 temperature: 'hot',
-//                 price: 4500,
-//                 totalOrders: 5
-//             },
-//             {
-//                 id: 2,
-//                 name: 'Iced Tea',
-//                 type: 'Tea',
-//                 temperature: 'ice',
-//                 price: 3000,
-//                 totalOrders: 10
-//             }
-//         ]
-//     });
-// });
 
 // 메뉴 생성
 router.post("/", async (req, res) => {
