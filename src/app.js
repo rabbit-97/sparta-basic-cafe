@@ -5,9 +5,7 @@ import logger from "morgan";
 import cors from "cors";
 
 import indexRouter from "./routes/index.js";
-import menusRouter from "./routes/menus.router.js";
-import ordersRouter from "./routes/orders.router.js";
-import statsRouter from "./routes/stats.router.js";
+import menusRouter from "./routes/menus.js";
 
 const app = express();
 
@@ -19,9 +17,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(path.resolve(), "public")));
 
-app.use("/", indexRouter);
-app.use("/menus", menusRouter);
-app.use("/orders", ordersRouter);
-app.use("/menus/stats", statsRouter);
+app.use("/api/menus", menusRouter);
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(path.resolve(), "public", "index.html"));
+});
 
 export default app;
