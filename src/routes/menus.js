@@ -139,7 +139,7 @@ router.post("/", async (req, res) => {
 });
 
 // put/api/menus/:menuId - 수정 완료 , 테스트 x
-// 홈페이지 오류 - 숫자는 이제 변경이 잘 되나 이름이 변경 안됨
+// 홈페이지 오류 - 숫자는 이제 변경이 잘 되나 이름이 변경 안됨.
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
