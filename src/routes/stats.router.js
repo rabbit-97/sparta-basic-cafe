@@ -1,11 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../utils/prisma/index.js";
 import express from "express";
 const router = express.Router();
-
-const prisma = new PrismaClient({
-  log: ["query", "info", "warn", "error"],
-  errorFormat: "pretty",
-});
 
 router.get("/", async (req, res, next) => {
   try {
