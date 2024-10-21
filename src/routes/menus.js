@@ -96,19 +96,30 @@ router.get("/", async (req, res) => {
 // get/api/menus/:id
 // 수정 완료, 테스트 완료 수정 누르면 경로 잘 타고 감
 // 생성 누르면 해당 로직에서 에러 발생 - id 언디파인
+// 내일 질문 내용 - 왜 다 잘 되는데 오류가 나오는지
 
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     console.log("요청 ID:", id);
+
+    if (!id || isNaN(id)) {
+      return res.status(400).json({ message: "유효하지 않은 ID입니다." });
+    }
+
     const menu = await prisma.menu.findUnique({
       where: {
         id: parseInt(id),
       },
     });
 
+    if (!menu) {
+      return res.status(404).json({ message: "메뉴를 찾을 수 없습니다." });
+    }
+
     res.status(200).json(menu);
   } catch (error) {
+    console.error("주문 조회 에러:", error);
     res.status(400).json({ message: "주문 조회에 실패했습니다." });
   }
 });
