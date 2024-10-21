@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
 
-import indexRouter from "./routes/index.js";
+import ordersRouter from "./routes/orders.router.js";
 import menusRouter from "./routes/menus.js";
 
 const app = express();
@@ -18,6 +18,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(path.resolve(), "public")));
 
 app.use("/api/menus", menusRouter);
+app.use("/orders", ordersRouter);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(path.resolve(), "public", "index.html"));
