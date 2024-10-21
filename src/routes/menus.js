@@ -68,7 +68,7 @@ router.get("/stats", async (req, res, next) => {
 //     },
 //   ];
 
-// get/api/menus - 수정 완료
+// get/api/menus - 수정 완료 디테일에 잘 나옴
 router.get("/", async (req, res) => {
   try {
     const menu = await prisma.menu.findMany({
@@ -94,11 +94,13 @@ router.get("/", async (req, res) => {
 });
 
 // get/api/menus/:id
-// 수정 완료, 테스트 완료
+// 수정 완료, 테스트 완료 수정 누르면 경로 잘 타고 감
+// 생성 누르면 해당 로직에서 에러 발생 - id 언디파인
 
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
+    console.log("요청 ID:", id);
     const menu = await prisma.menu.findUnique({
       where: {
         id: parseInt(id),
@@ -120,16 +122,21 @@ router.get("/:id", async (req, res) => {
 //   });
 // });
 
-// post/api/menus/ - 수정 완료, 테스트 x
+// post/api/menus/ - 수정 완료, 테스트 완료 생성 잘 됨
+
 router.post("/", async (req, res) => {
   try {
-    const { name, type, temperature, price } = req.body;
+    const { name, type, temperature } = req.body;
+    let { price } = req.body;
+
+    price = parseFloat(price);
+
     const menu = await prisma.menu.create({
       data: {
         name,
         type,
         temperature,
-        price,
+        price: price,
       },
     });
     res.status(201).json(menu);
@@ -138,13 +145,12 @@ router.post("/", async (req, res) => {
   }
 });
 
-// put/api/menus/:menuId - 수정 완료 , 테스트 x
-// 홈페이지 오류 - 숫자는 이제 변경이 잘 되나 이름이 변경 안됨.
+// put/api/menus/:menuId - 수정 완료 , 테스트 완료 수정 잘 됨
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { name, type, temperature } = req.body;
-    const { price } = req.body;
+    let { price } = req.body;
 
     price = parseFloat(price);
 
@@ -156,7 +162,7 @@ router.put("/:id", async (req, res) => {
         name,
         type,
         temperature,
-        price,
+        price: price,
       },
     });
     res.status(200).json(menu);
@@ -165,7 +171,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// delete/api/menus/:menuId - 수정 완료, 테스트 완료
+// delete/api/menus/:menuId - 수정 완료, 테스트 완료 삭제 잘 됨
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
